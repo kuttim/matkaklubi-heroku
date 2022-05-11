@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include ("../partials/header.ejs") %>
+  </head>
+
+  <body>
+    <div class="">
+      <div class="container-fluid header-section">
+        <%- include ("../partials/nav.ejs") %>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <div class="col">
+            <div class="card h-100">
+              <img
+                src="<%= trek.image %>"
+                class="card-img-top"
+                alt="..."
+              />
+              <div class="card-body">
+                <h5 class="card-title"><%= trek.title %></h5>
+                <p class="card-text"><%= trek.description %></p>
+              </div>
+              <div class="card-footer">
+                <p>Algab: <%= trek.startsAt %></p>
+                <p>Osalejad: <%= trek.participants.length %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form action="/register" method="POST">
+          <input name="trek" type="hidden" value="<%=trek.id %>" />
+          <label for="name">Nimi</label>
+          <input
+            type="text"
+            class="form-control"
+            required="true"
+            id="name"
+            name="name"
+            placeholder="Nimi"
+          />
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            required="true"
+            id="email"
+            name="email"
+            placeholder="Email"
+          />
+          <button type="submit" class="btn btn-secondary mt-3">
+            Registreeri
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
