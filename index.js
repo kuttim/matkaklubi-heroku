@@ -43,7 +43,7 @@ const treks = [
 const news = [
   {
     id: 1,
-    title: 'Lorem ipsum',
+    title: 'Uudis 1',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     image: 'https://picsum.photos/420/270',
@@ -69,7 +69,7 @@ const news = [
   },
   {
     id: 2,
-    title: 'Lorem ipsum',
+    title: 'Uudis 2',
     image: 'https://picsum.photos/420/270',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu justo gravida leo convallis lobortis id sed erat. Nullam lobortis risus nec tempus lobortis. ',
@@ -93,18 +93,11 @@ const news = [
         name: 'Maailm',
       },
     ],
-    comments: [
-      {
-        id: 1,
-        name: 'John Doe',
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      },
-    ],
     updatedAt: moment().minutes(-7).fromNow(),
   },
   {
     id: 3,
-    title: 'Lorem ipsum',
+    title: 'Uudis 3',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     image: 'https://picsum.photos/420/270',
