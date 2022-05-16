@@ -40,10 +40,102 @@ const treks = [
   },
 ];
 
+const news = [
+  {
+    id: 1,
+    title: 'Lorem ipsum',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    image: 'https://picsum.photos/420/270',
+    updatedAt: moment().minute(-5).fromNow(),
+    content: [
+      {
+        title: 'Esimene sektsioon',
+        text: 'Nullam risus magna, accumsan id laoreet ornare, semper vitae erat. Proin justo justo, iaculis vel varius ut, pulvinar et felis. Vivamus nec lectus quis leo ultricies viverra vitae vehicula est. Nam massa nibh, semper id tristique quis, aliquam non dui. Duis laoreet scelerisque enim, nec vulputate turpis aliquet sit amet. ',
+      },
+      {
+        title: 'Teine sektsioon',
+        text: 'Duis porttitor, velit facilisis aliquam condimentum, lacus sapien mattis justo, sit amet elementum massa nibh ut libero. Pellentesque at odio blandit, fringilla est ac, aliquam sapien. Mauris scelerisque nisi ut placerat mollis. Aliquam vitae tellus sed ante volutpat aliquam. Curabitur mattis orci ut ex varius varius.',
+      },
+    ],
+    tags: [
+      {
+        name: 'Sport',
+      },
+      {
+        name: 'Loodus',
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: 'Lorem ipsum',
+    image: 'https://picsum.photos/420/270',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu justo gravida leo convallis lobortis id sed erat. Nullam lobortis risus nec tempus lobortis. ',
+    content: [
+      {
+        id: 1,
+        title: 'Esimene sektsioon',
+        text: 'Nullam risus magna, accumsan id laoreet ornare, semper vitae erat. Proin justo justo, iaculis vel varius ut, pulvinar et felis. Vivamus nec lectus quis leo ultricies viverra vitae vehicula est. Nam massa nibh, semper id tristique quis, aliquam non dui. Duis laoreet scelerisque enim, nec vulputate turpis aliquet sit amet. ',
+      },
+      {
+        id: 2,
+        title: 'Teine sektsioon',
+        text: 'Duis porttitor, velit facilisis aliquam condimentum, lacus sapien mattis justo, sit amet elementum massa nibh ut libero. Pellentesque at odio blandit, fringilla est ac, aliquam sapien. Mauris scelerisque nisi ut placerat mollis. Aliquam vitae tellus sed ante volutpat aliquam. Curabitur mattis orci ut ex varius varius.',
+      },
+    ],
+    tags: [
+      {
+        name: 'Tarbija',
+      },
+      {
+        name: 'Maailm',
+      },
+    ],
+    comments: [
+      {
+        id: 1,
+        name: 'John Doe',
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      },
+    ],
+    updatedAt: moment().minutes(-7).fromNow(),
+  },
+  {
+    id: 3,
+    title: 'Lorem ipsum',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    image: 'https://picsum.photos/420/270',
+    updatedAt: moment().minutes(-7).fromNow(),
+    content: [
+      {
+        id: 1,
+        title: 'Esimene sektsioon',
+        text: 'Nullam risus magna, accumsan id laoreet ornare, semper vitae erat. Proin justo justo, iaculis vel varius ut, pulvinar et felis. Vivamus nec lectus quis leo ultricies viverra vitae vehicula est. Nam massa nibh, semper id tristique quis, aliquam non dui. Duis laoreet scelerisque enim, nec vulputate turpis aliquet sit amet. ',
+      },
+      {
+        id: 2,
+        title: 'Teine sektsioon',
+        text: 'Duis porttitor, velit facilisis aliquam condimentum, lacus sapien mattis justo, sit amet elementum massa nibh ut libero. Pellentesque at odio blandit, fringilla est ac, aliquam sapien. Mauris scelerisque nisi ut placerat mollis. Aliquam vitae tellus sed ante volutpat aliquam. Curabitur mattis orci ut ex varius varius.',
+      },
+    ],
+    tags: [
+      {
+        name: 'Tarbija',
+      },
+      {
+        name: 'Maailm',
+      },
+    ],
+  },
+];
+
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
-
+app.use(express.json({ extended: true }));
+//app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -76,17 +168,13 @@ app.post('/register', (req, res) => {
     email,
     name,
   });
-  res.render('pages/success', {
-    title: 'Registreerumine õnnestus',
-    message: 'Teie registreerimine õnnestus!',
-  });
+  res.end();
 });
 
 app.get('/trek/:id', (req, res) => {
   const id = req.params.id;
   const trek = treks.find((trek) => trek.id === Number(id));
   if (trek) {
-    console.log(trek);
     res.render('pages/trek', {
       title: 'Treks',
       trek,
@@ -96,6 +184,31 @@ app.get('/trek/:id', (req, res) => {
     res.render('pages/error', {
       title: 'Viga',
       message: 'Trekki ei eksisteeri',
+    });
+  }
+});
+
+app.get('/news', (req, res) => {
+  res.render('pages/news', {
+    title: 'Uudised',
+    news,
+  });
+});
+
+app.get('/news/:id', (req, res) => {
+  const singleNews = news.find(
+    (news) => news.id === Number(req.params.id)
+  );
+  if (singleNews) {
+    res.render('pages/single-news', {
+      title: singleNews.title,
+      singleNews,
+      news,
+    });
+  } else {
+    res.render('pages/error', {
+      title: 'Viga',
+      message: 'Uudist ei eksisteeri',
     });
   }
 });

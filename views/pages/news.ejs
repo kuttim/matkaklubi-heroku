@@ -11,27 +11,28 @@
       </div>
       <div class="container">
         <div class="row row-cols-1 row-cols-md-3 g-4">
-          <% for (var i = 0; i < treks.length; i++) { %>
+          <% for (var i = 0; i < news.length; i++) { %>
           <div class="col">
             <div class="card h-100">
-              <img
-                src="<%= treks[i].image %>"
-                class="card-img-top"
-                alt="<%= treks[i].title %>"
-              />
+              <a href="/news/<%= news[i].id %>" target="_blank">
+                <img
+                  class="card-img-top"
+                  alt=""
+                  src="<%= news[i].image %>"
+                />
+              </a>
               <div class="card-body">
-                <h5 class="card-title"><%= treks[i].title %></h5>
-                <p class="card-text"><%= treks[i].description %></p>
+                <h5 class="card-title"><%= news[i].title %></h5>
+                <p class="card-text"><%= news[i].description %></p>
               </div>
               <div class="card-footer">
-                <p>Algab: <%= treks[i].startsAt %></p>
-                <p>Osalejad: <%= treks[i].participants.length %></p>
+                Viimati uuendatud: <%= news[i].updatedAt %>
                 <a
-                  href="/trek/<%= treks[i].id %>"
+                  href="/news/<%= news[i].id %>"
                   class="btn btn-secondary"
                   role="button"
                   target="_blank"
-                  >Registreeri</a
+                  >Loe uudist</a
                 >
               </div>
             </div>

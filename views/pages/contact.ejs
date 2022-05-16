@@ -23,7 +23,7 @@
                           </div>
                         <div class="form-group">
                             <label for="name">Nimi</label>
-                            <input type="text" class="form-control" required="true" name="name" id="name" placeholder="Nimi">
+                            <input type="text" class="form-control"  name="name" id="name" placeholder="Nimi">
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -33,12 +33,14 @@
                             <label for="message">Kiri</label>
                             <textarea class="form-control" required="true" name="message" id="message" rows="3"></textarea>
                         </div>
-                        <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+                        <button onclick=""type="submit" id="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
         </div>
     </div> 
+    <%- include ("../partials/footer.ejs") %>
+
 <script src="js/contact.js"></script>
 </body>
 </html>
