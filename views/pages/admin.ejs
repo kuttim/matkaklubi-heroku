@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="stylesheets/admin.css" />
+
+    <%- include ("../partials/header.ejs") %>
+  </head>
+  <body>
+    <div class="">
+      <div class="container-fluid header-section">
+        <%- include ("../partials/nav.ejs") %>
+      </div>
+      <div class="container">
+        <h1>Trekkide haldamine</h1>
+        <div style="margin-bottom: 15px">
+          <button
+            data-bs-toggle="modal"
+            class="btn btn-primary"
+            data-bs-target="#newTrekModal"
+          >
+            Lisa uus
+          </button>
+        </div>
+        <div
+          class="position-fixed bottom-0 end-0 p-3"
+          style="z-index: 11"
+        >
+          <div
+            id="trek-created-toast"
+            class="toast hide"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div class="toast-body">Trekk loodud!</div>
+          </div>
+        </div>
+        <div
+          class="modal fade"
+          id="newTrekModal"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <label for="trek-title" class="col-form-label">
+                  Treki nimi
+                </label>
+                <input
+                  value=""
+                  type="text"
+                  required="true"
+                  class="form-control"
+                  id="trek-title"
+                />
+                <label for="trek-description" class="col-form-label">
+                  Kirjeldus
+                </label>
+                <input
+                  value=""
+                  required="true"
+                  type="text"
+                  class="form-control"
+                  id="trek-description"
+                />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Sulge
+                </button>
+                <button
+                  type="submit"
+                  id="liveToastBtn"
+                  class="btn btn-primary"
+                  onclick="createTrek()"
+                >
+                  Lisa
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <% for (var i = 0; i < treks.length; i++) { %> <% var trek =
+          treks[i] %>
+          <div class="col">
+            <%- include ("../partials/admin-trek.ejs", { trek } ) %>
+          </div>
+          <% } %>
+        </div>
+        <h1>Uudiste haldamine</h1>
+        <div style="margin-bottom: 15px">
+          <button
+            data-bs-toggle="modal"
+            class="btn btn-primary"
+            data-bs-target="#newsModal"
+          >
+            Lisa uus
+          </button>
+        </div>
+        <div
+          class="modal fade"
+          id="newsModal"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <label for="title" class="col-form-label">
+                  Uudise nimi
+                </label>
+                <input
+                  value=""
+                  type="text"
+                  required="true"
+                  class="form-control"
+                  id="news-title"
+                />
+                <label for="description" class="col-form-label">
+                  Kirjeldus
+                </label>
+                <input
+                  value=""
+                  type="text"
+                  class="form-control"
+                  id="news-description"
+                />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Sulge
+                </button>
+                <button
+                  type="submit"
+                  id="liveToastBtn"
+                  class="btn btn-primary"
+                  onclick="(createNews())"
+                >
+                  Lisa
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <% for (var i = 0; i < news.length; i++) { var segment =
+          news[i]; %>
+          <div class="col">
+            <%- include ("../partials/admin-news.ejs", { segment } )
+            %>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <%- include ("../partials/footer.ejs") %>
+    <script src="js/admin.js"></script>
+  </body>
+</html>

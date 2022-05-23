@@ -11,24 +11,26 @@
       </div>
       <div class="container">
         <div class="row row-cols-1 row-cols-md-3 g-4">
-          <% for (var i = 0; i < news.length; i++) { %>
+          <% for (var i = 0; i < newsList.length; i++) { %>
           <div class="col">
             <div class="card h-100">
-              <a href="/news/<%= news[i].id %>" target="_blank">
+              <a href="/news/<%= newsList[i].id %>" target="_blank">
                 <img
                   class="card-img-top"
                   alt=""
-                  src="<%= news[i].image %>"
+                  src="<%= newsList[i].image %>"
                 />
               </a>
               <div class="card-body">
-                <h5 class="card-title"><%= news[i].title %></h5>
-                <p class="card-text"><%= news[i].description %></p>
+                <h5 class="card-title"><%= newsList[i].title %></h5>
+                <p class="card-text">
+                  <%= newsList[i].description %>
+                </p>
               </div>
               <div class="card-footer">
-                Viimati uuendatud: <%= news[i].updatedAt %>
+                Viimati uuendatud: <%= newsList[i].updatedAt %>
                 <a
-                  href="/news/<%= news[i].id %>"
+                  href="/news/<%= newsList[i].id %>"
                   class="btn btn-secondary"
                   role="button"
                   target="_blank"

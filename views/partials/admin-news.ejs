@@ -1,0 +1,105 @@
+<div class="card h-100" id="news-card-<%= segment._id %>">
+  <img
+    src="<%= segment.image %>"
+    class="card-img-top"
+    alt="<%= segment.title %>"
+  />
+  <div class="card-body">
+    <h5 class="card-title" id="news-title-<%= segment._id %>">
+      <%= segment.title %>
+    </h5>
+    <p class="card-text" id="news-description-<%= segment._id %>">
+      <%= segment.description %>
+    </p>
+  </div>
+  <div class="card-footer">
+    <p>Viimati uuendatud: <%= segment.updatedAt %></p>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#newsModal-<%=  segment._id %>"
+    >
+      Halda
+    </button>
+    <div
+      class="modal fade"
+      id="newsModal-<%= segment._id %>"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <label for="title" class="col-form-label">
+              Uudise tiitel<br />
+              _id: <%= segment._id %>
+            </label>
+            <input
+              value="<%= segment.title %>"
+              type="text"
+              class="form-control"
+              id="news-title-<%= segment._id %>"
+            />
+            <label for="description" class="col-form-label">
+              Kirjeldus
+            </label>
+            <input
+              value="<%= segment.description %>"
+              type="text"
+              class="form-control"
+              id="news-description-<%= segment._id %>"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="#newsModal-<%= segment._id %>"
+            >
+              Sulge
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="deleteNews('<%= segment._id %>')"
+            >
+              Kustuta
+            </button>
+            <button
+              id="edit-news-button"
+              type="button"
+              class="btn btn-primary"
+              onclick="editNews('<%= segment._id %>')"
+            >
+              Muuda
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="position-fixed bottom-0 end-0 p-3"
+      style="z-index: 11"
+    >
+      <div
+        id="news-deleted-toast"
+        class="toast hide"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-body">Uudis kustutatud!</div>
+      </div>
+      <div
+        id="news-edited-toast"
+        class="toast hide"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-body">Uudis muudetud!</div>
+      </div>
+    </div>
+  </div>
+</div>

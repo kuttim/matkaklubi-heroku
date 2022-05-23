@@ -1,0 +1,107 @@
+<div class="card h-100" id="treks-card-<%= trek._id %>">
+  <img
+    src="<%= trek.image %>"
+    class="card-img-top"
+    alt="<%= trek.title %>"
+  />
+  <div class="card-body">
+    <!-- now we can look up this element by id and update the inner html/text -->
+    <h5 class="card-title" id="trek-title-<%= trek._id %>">
+      <%= trek.title %>
+    </h5>
+    <p class="card-text" id="trek-description-<%= trek._id %>">
+      <%= trek.description %>
+    </p>
+  </div>
+  <div class="card-footer">
+    <p>Algab: <%= trek.startsAt %></p>
+    <p>Osalejad: <%= trek.participants.length %></p>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#trekModal-<%= trek._id %>"
+    >
+      Halda
+    </button>
+    <div
+      class="position-fixed bottom-0 end-0 p-3"
+      style="z-index: 11"
+    >
+      <div
+        id="trek-deleted-toast"
+        class="toast hide"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-body">Trekk kustutatud!</div>
+      </div>
+      <div
+        id="trek-edited-toast"
+        class="toast hide"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-body">Trekk muudetud!</div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="trekModal-<%= trek._id %>"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <label for="title" class="col-form-label">
+              Treki nimi <br />
+              _id: <%= trek._id %>
+            </label>
+            <input
+              value="<%= trek.title %>"
+              type="text"
+              class="form-control"
+              id="treks-title-<%= trek._id %>"
+            />
+            <label for="description" class="col-form-label">
+              Kirjeldus
+            </label>
+            <input
+              value="<%= trek.description %>"
+              type="text"
+              class="form-control"
+              id="treks-description-<%= trek._id %>"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Sulge
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="deleteTrek('<%= trek._id %>')"
+            >
+              Kustuta
+            </button>
+            <button
+              type="submit"
+              id="liveToastBtn"
+              class="btn btn-primary"
+              onclick="editTrek('<%= trek._id %>')"
+            >
+              Muuda
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

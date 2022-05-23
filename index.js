@@ -1,134 +1,34 @@
 const express = require('express');
 const moment = require('moment');
 const path = require('path');
+const { MongoClient } = require('mongodb');
+const Trek = require('./db/models/Trek');
+const News = require('./db/models/News');
 const PORT = process.env.PORT || 5000;
 
+const mongoose = require('mongoose');
+require('dotenv').config();
+
 moment.locale('et');
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-const treks = [
-  {
-    id: 1,
-    title: 'Kepikõnd',
-    description:
-      'Duis et lectus sit amet diam imperdiet placerat. Curabitur ac tempus massa. ',
-    image: 'https://p.ocdn.ee/53/i/2016/7/8/nadky13h.c2a.jpg',
-    url: 'https://www.liigume.ee/747181/kepikond-ja-kaimine',
-    startsAt: moment().endOf('day').fromNow(),
-    participants: [],
-  },
-  {
-    id: 2,
-    title: 'Kiirkõnd',
-    description:
-      'Duis et lectus sit amet diam imperdiet placerat. Curabitur ac tempus massa.',
-    image:
-      'https://strongguru.org/wp-content/uploads/2019/07/speedwalking-benefits.jpg',
-    url: 'https://et.strongguru.org/exercises-et/eelised-kiirkond.html',
-    startsAt: moment().endOf('day').fromNow(),
-    participants: [],
-  },
-  {
-    id: 3,
-    title: 'Mägironimine',
-    description:
-      'Duis et lectus sit amet diam imperdiet placerat. Curabitur ac tempus massa.',
-    image:
-      'https://i0.wp.com/www.adrenaliin.ee/wp-content/uploads/2016/08/32678984_10214834359787845_1891638910103060480_n.jpg?fit=1024%2C681&ssl=1',
-    url: 'https://et.strongguru.org/exercises-et/eelised-magironimine.html',
-    startsAt: moment().endOf('day').fromNow(),
-    participants: [],
-  },
-];
-
-const news = [
-  {
-    id: 1,
-    title: 'Uudis 1',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://picsum.photos/420/270',
-    updatedAt: moment().minute(-5).fromNow(),
-    content: [
-      {
-        title: 'Esimene sektsioon',
-        text: 'Nullam risus magna, accumsan id laoreet ornare, semper vitae erat. Proin justo justo, iaculis vel varius ut, pulvinar et felis. Vivamus nec lectus quis leo ultricies viverra vitae vehicula est. Nam massa nibh, semper id tristique quis, aliquam non dui. Duis laoreet scelerisque enim, nec vulputate turpis aliquet sit amet. ',
-      },
-      {
-        title: 'Teine sektsioon',
-        text: 'Duis porttitor, velit facilisis aliquam condimentum, lacus sapien mattis justo, sit amet elementum massa nibh ut libero. Pellentesque at odio blandit, fringilla est ac, aliquam sapien. Mauris scelerisque nisi ut placerat mollis. Aliquam vitae tellus sed ante volutpat aliquam. Curabitur mattis orci ut ex varius varius.',
-      },
-    ],
-    tags: [
-      {
-        name: 'Sport',
-      },
-      {
-        name: 'Loodus',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Uudis 2',
-    image: 'https://picsum.photos/420/270',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu justo gravida leo convallis lobortis id sed erat. Nullam lobortis risus nec tempus lobortis. ',
-    content: [
-      {
-        id: 1,
-        title: 'Esimene sektsioon',
-        text: 'Nullam risus magna, accumsan id laoreet ornare, semper vitae erat. Proin justo justo, iaculis vel varius ut, pulvinar et felis. Vivamus nec lectus quis leo ultricies viverra vitae vehicula est. Nam massa nibh, semper id tristique quis, aliquam non dui. Duis laoreet scelerisque enim, nec vulputate turpis aliquet sit amet. ',
-      },
-      {
-        id: 2,
-        title: 'Teine sektsioon',
-        text: 'Duis porttitor, velit facilisis aliquam condimentum, lacus sapien mattis justo, sit amet elementum massa nibh ut libero. Pellentesque at odio blandit, fringilla est ac, aliquam sapien. Mauris scelerisque nisi ut placerat mollis. Aliquam vitae tellus sed ante volutpat aliquam. Curabitur mattis orci ut ex varius varius.',
-      },
-    ],
-    tags: [
-      {
-        name: 'Tarbija',
-      },
-      {
-        name: 'Maailm',
-      },
-    ],
-    updatedAt: moment().minutes(-7).fromNow(),
-  },
-  {
-    id: 3,
-    title: 'Uudis 3',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://picsum.photos/420/270',
-    updatedAt: moment().minutes(-7).fromNow(),
-    content: [
-      {
-        id: 1,
-        title: 'Esimene sektsioon',
-        text: 'Nullam risus magna, accumsan id laoreet ornare, semper vitae erat. Proin justo justo, iaculis vel varius ut, pulvinar et felis. Vivamus nec lectus quis leo ultricies viverra vitae vehicula est. Nam massa nibh, semper id tristique quis, aliquam non dui. Duis laoreet scelerisque enim, nec vulputate turpis aliquet sit amet. ',
-      },
-      {
-        id: 2,
-        title: 'Teine sektsioon',
-        text: 'Duis porttitor, velit facilisis aliquam condimentum, lacus sapien mattis justo, sit amet elementum massa nibh ut libero. Pellentesque at odio blandit, fringilla est ac, aliquam sapien. Mauris scelerisque nisi ut placerat mollis. Aliquam vitae tellus sed ante volutpat aliquam. Curabitur mattis orci ut ex varius varius.',
-      },
-    ],
-    tags: [
-      {
-        name: 'Tarbija',
-      },
-      {
-        name: 'Maailm',
-      },
-    ],
-  },
-];
+MongoClient.connect(process.env.MONGODB_URL, (err, client) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(
+      'Successfully established a connection with the database.'
+    );
+  }
+});
 
 const app = express();
 
 app.use(express.json({ extended: true }));
-//app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -145,10 +45,11 @@ app.get('/contact', (req, res) => {
   });
 });
 
-app.get('/treks', (req, res) => {
+app.get('/treks', async (req, res) => {
+  const trekList = await Trek.find();
   res.render('pages/treks', {
     title: 'Treks',
-    treks,
+    treks: trekList,
   });
 });
 
@@ -164,14 +65,13 @@ app.post('/register', (req, res) => {
   res.end();
 });
 
-app.get('/trek/:id', (req, res) => {
+app.get('/trek/:id', async (req, res) => {
   const id = req.params.id;
-  const trek = treks.find((trek) => trek.id === Number(id));
+  const trek = await Trek.findOne({ id });
   if (trek) {
     res.render('pages/trek', {
-      title: 'Treks',
+      title: 'Trek',
       trek,
-      treks,
     });
   } else {
     res.render('pages/error', {
@@ -181,10 +81,12 @@ app.get('/trek/:id', (req, res) => {
   }
 });
 
-app.get('/news', (req, res) => {
+app.get('/news', async (req, res) => {
+  const newsList = await News.find({});
+  console.log({ newsList });
   res.render('pages/news', {
     title: 'Uudised',
-    news,
+    newsList,
   });
 });
 
@@ -196,7 +98,7 @@ app.get('/news/:id', (req, res) => {
     res.render('pages/single-news', {
       title: singleNews.title,
       singleNews,
-      news,
+      newsList,
     });
   } else {
     res.render('pages/error', {
@@ -204,6 +106,86 @@ app.get('/news/:id', (req, res) => {
       message: 'Uudist ei eksisteeri',
     });
   }
+});
+
+app.put('/news/update/:id', async (req, res) => {
+  const news = await News.findOne({ id: req.params.id });
+
+  if (news) {
+    (news.title = req.body.title),
+      (news.description = req.body.description),
+      news.save();
+  }
+  res.json({ news });
+});
+
+app.post('/news/create', async (req, res) => {
+  const { title, description } = req.body;
+  const createNews = new News({
+    title,
+    description,
+    image: req.body.image || `https://picsum.photos/id/214/143`,
+    updatedAt:
+      req.body.updatedAt || moment().subtract(2, 'days').fromNow(),
+  });
+  await createNews.save();
+  console.log(createNews);
+});
+
+app.delete('/news/delete/:id/', async (req, res) => {
+  console.log(req.params);
+  const news = await News.findById(req.params.id);
+  var isDeleted = false;
+  if (news) {
+    await news.remove();
+    isDeleted = true;
+  }
+
+  res.json({ isDeleted });
+});
+
+app.put('/trek/update/:id', async (req, res) => {
+  const trek = await Trek.findById(req.params.id);
+  if (trek) {
+    trek.title = req.body.title;
+    trek.description = req.body.description;
+    trek.save();
+  }
+  console.log(`Trek updated: ${trek.title}`);
+  res.json({ trek });
+});
+
+app.delete('/trek/delete/:id', async (req, res) => {
+  const trek = await Trek.findById(req.params.id);
+  var isDeleted = false;
+  if (trek) {
+    await trek.remove();
+    isDeleted = true;
+  }
+
+  res.json({ isDeleted });
+});
+app.post('/trek/create', async (req, res) => {
+  const trek = new Trek({
+    title: req.body.title,
+    description: req.body.description,
+    image: req.body.image || `https://picsum.photos/id/214/143`,
+
+    startsAt: req.body.date || moment().endOf('day').fromNow(),
+    participants: [],
+  });
+  await trek.save();
+  res.json({ trek });
+});
+
+app.get('/admin', async (req, res) => {
+  const trekList = await Trek.find({});
+  const newsList = await News.find({});
+  res.render('pages/admin', {
+    title: 'Admin',
+    treks: trekList,
+    news: newsList,
+  });
 });
 app.listen(PORT, () =>
   console.log(`Server listening on http://localhost:${PORT}`)
